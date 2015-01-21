@@ -16,10 +16,10 @@ int http_post(tuobao_tcpclient *pclient,const char *page,const char *request,cha
     unsigned long len=0;
     
     lpbuf = NULL;
-    const char *header2="User-Agent: Tuobao Http 0.1\r\nCache-Control: no-cache\r\nContent-Type: application/x-www-form-urlencoded\r\nAccept: */*\r\n";
+    const char *header2="User-Agent: Tuobao Http 0.1\r\nCache-Control: no-cache\r\nContent-Type: application/x-www-form-urlencoded\r\nAccept: */*\r\nAccept-Encoding: gzip, deflate\r\nConnection: keep-alive\r\n";
     
-    sprintf(post,"POST %s HTTP/1.0\r\n",page);
-    sprintf(host,"HOST: %s:%d\r\n",pclient->remote_ip,pclient->remote_port);
+    sprintf(post,"GET %s HTTP/1.0\r\n",page);
+    sprintf(host,"HOST: %s\r\n","18avtube.com");
     sprintf(content_len,"Content-Length: %ld\r\n\r\n",strlen(request));
     
     len = strlen(post)+strlen(host)+strlen(header2)+strlen(content_len)+strlen(request)+1;
@@ -106,9 +106,9 @@ int main(int argc, const char * argv[]){
     
     char *response = NULL;
     printf("开始组包\n");
-    tuobao_tcpclient_create(&client,"zfgjj.jianbing.com",80);
+    tuobao_tcpclient_create(&client,"18avtube.com",80);
     
-    if(http_post(&client,"/app/test.html","f1=hello",&response)){
+    if(http_post(&client,"/index.php","f1=hello",&response)){
         printf("失败!\n");
         exit(2);
     }
